@@ -775,7 +775,7 @@ namespace cryptonote
     if (b.major_version == BLOCK_MAJOR_VERSION_3) {
       crypto::cn_slow_hash(bd.data(), bd.size(), res);
     }
-    else if (b.major_version == BLOCK_MAJOR_VERSION_4) {
+    else if (b.major_version >= BLOCK_MAJOR_VERSION_4) {
       // TODO: Integrate the Cryptonight v7 variant. (OPTIONAL)
       // This is not required for the node-cryptonote-utils package.
     }
@@ -866,7 +866,7 @@ namespace cryptonote
   //---------------------------------------------------------------
   bool check_proof_of_work_v2(const block& bl, difficulty_type current_diffic, crypto::hash& proof_of_work)
   {
-    if (BLOCK_MAJOR_VERSION_2 != bl.major_version || BLOCK_MAJOR_VERSION_3 != bl.major_version || BLOCK_MAJOR_VERSION_4 != bl.major_version)
+    if (BLOCK_MAJOR_VERSION_2 != bl.major_version || BLOCK_MAJOR_VERSION_3 != bl.major_version || BLOCK_MAJOR_VERSION_4 != bl.major_version || BLOCK_MAJOR_VERSION_5 != bl.major_version)
       return false;
 
     if (!get_bytecoin_block_longhash(bl, proof_of_work))
@@ -908,6 +908,7 @@ namespace cryptonote
     case BLOCK_MAJOR_VERSION_2: return check_proof_of_work_v2(bl, current_diffic, proof_of_work);
     case BLOCK_MAJOR_VERSION_3: return check_proof_of_work_v2(bl, current_diffic, proof_of_work);
     case BLOCK_MAJOR_VERSION_4: return check_proof_of_work_v2(bl, current_diffic, proof_of_work);
+    case BLOCK_MAJOR_VERSION_5: return check_proof_of_work_v2(bl, current_diffic, proof_of_work);
     }
 
     CHECK_AND_ASSERT_MES(false, false, "unknown block major version: " << bl.major_version << "." << bl.minor_version);
